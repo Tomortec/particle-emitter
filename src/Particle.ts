@@ -1,4 +1,4 @@
-import { Sprite } from 'pixi.js';
+import { Sprite, IParticle } from 'pixi.js';
 import { Emitter } from './Emitter';
 import { LinkedListChild } from './LinkedListContainer';
 
@@ -114,5 +114,16 @@ export class Particle extends Sprite implements LinkedListChild
         }
         this.emitter = this.next = this.prev = null;
         super.destroy();
+    }
+
+    public toPixiParticle(): IParticle {
+        return {
+            ...this,
+            scaleX: this.scale.x,
+            scaleY: this.scale.y,
+            color: this.tint,
+            anchorX: this.anchor.x,
+            anchorY: this.anchor.y,
+        }
     }
 }

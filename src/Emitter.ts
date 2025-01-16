@@ -1,4 +1,4 @@
-import { Container, Point, Ticker } from 'pixi.js';
+import { ParticleContainer, Point, Ticker } from 'pixi.js';
 import { BehaviorOrder, IEmitterBehavior, IEmitterBehaviorClass } from './behaviors/Behaviors';
 import { EmitterConfigV3 } from './EmitterConfig';
 import { Particle } from './Particle';
@@ -119,7 +119,7 @@ export class Emitter
     /**
      * The container to add particles to.
      */
-    protected _parent: Container;
+    protected _parent: ParticleContainer;
     /**
      * If particles should be added at the back of the display list instead of the front.
      */
@@ -189,7 +189,7 @@ export class Emitter
      *                          true, the Emitter will automatically call
      *                          update via the PIXI shared ticker.
      */
-    constructor(particleParent: Container, config: EmitterConfigV3)
+    constructor(particleParent: ParticleContainer, config: EmitterConfigV3)
     {
         this.initBehaviors = [];
         this.updateBehaviors = [];
@@ -262,8 +262,8 @@ export class Emitter
     /**
     * The container to add particles to. Settings this will dump any active particles.
     */
-    public get parent(): Container { return this._parent; }
-    public set parent(value: Container)
+    public get parent(): ParticleContainer { return this._parent; }
+    public set parent(value: ParticleContainer)
     {
         this.cleanup();
         this._parent = value;
@@ -727,11 +727,11 @@ export class Emitter
                     // add the particle to the display list
                     if (this.addAtBack)
                     {
-                        this._parent.addChildAt(p, 0);
+                        this._parent.addParticleAt(p.toPixiParticle(), 0);
                     }
                     else
                     {
-                        this._parent.addChild(p);
+                        this._parent.addParticle(p.toPixiParticle());
                     }
                     // add particles to list of ones in this wave
                     if (waveFirst)
@@ -912,11 +912,11 @@ export class Emitter
             // add the particle to the display list
             if (this.addAtBack)
             {
-                this._parent.addChildAt(p, 0);
+                this._parent.addParticleAt(p.toPixiParticle(), 0);
             }
             else
             {
-                this._parent.addChild(p);
+                this._parent.addParticle(p.toPixiParticle());
             }
             // add particles to list of ones in this wave
             if (waveFirst)
